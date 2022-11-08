@@ -19,7 +19,7 @@ public class UserService {
     }
 
     public boolean isUsernameAvailable(String username) {
-        return userMapper.select(username) == null;
+        return this.select(username) == null;
     }
 
     public int createUser(User user) {
@@ -40,5 +40,9 @@ public class UserService {
                 user.getLastname()
             )
         );
+    }
+
+    public User select(String username) {
+        return userMapper.select(username);
     }
 }
