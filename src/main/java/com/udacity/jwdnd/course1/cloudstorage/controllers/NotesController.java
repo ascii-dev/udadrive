@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.udacity.jwdnd.course1.cloudstorage.forms.NoteForm;
+import com.udacity.jwdnd.course1.cloudstorage.models.Note;
 import com.udacity.jwdnd.course1.cloudstorage.models.User;
 import com.udacity.jwdnd.course1.cloudstorage.services.NoteService;
 import com.udacity.jwdnd.course1.cloudstorage.services.UserService;
@@ -53,7 +54,18 @@ public class NotesController {
         User user = userService.select(principal.getName());
 
         if (user != null) {
-            noteService.createNote(noteForm, user.getUserid());
+            if (noteForm.getNoteId() == null) {
+                noteService.createNote(noteForm, user.getUserid());
+            } else {
+                Note note = noteService.getNote(noteForm.getNoteId());
+                note.setNotetitle(noteForm.getNoteTitle());
+                note.setNotedescription(noteForm.getNoteDescription());
+
+                boolean updated = noteService.updateNote(note, user.getUserid());
+                if (!updated) {
+                    model.addAttribute("error", "Note can not be updated");
+                }
+            }
             noteForm.clear();
             model.addAttribute("notes", noteService.getUserNotes(user.getUserid()));
         } else {

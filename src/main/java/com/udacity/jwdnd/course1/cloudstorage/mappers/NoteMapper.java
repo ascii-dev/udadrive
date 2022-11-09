@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import com.udacity.jwdnd.course1.cloudstorage.models.Note;
 
@@ -20,4 +21,13 @@ public interface NoteMapper {
     )
     @Options(useGeneratedKeys = true, keyProperty = "noteid")
     int insert(Note note);
+
+    @Update(
+        "UPDATE NOTES SET notetitle = #{notetitle}, notedescription = "
+        + "#{notedescription} WHERE noteid = #{noteid}"
+    )
+    boolean update(Note note);
+
+    @Select("SELECT * FROM NOTES WHERE noteid = #{noteid}")
+    Note select(int noteid);
 }

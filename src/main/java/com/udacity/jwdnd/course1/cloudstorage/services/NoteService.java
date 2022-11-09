@@ -20,6 +20,18 @@ public class NoteService {
         return noteMapper.selectALLByUser(userId);
     }
 
+    public Note getNote(int noteid) {
+        return noteMapper.select(noteid);
+    }
+
+    public boolean updateNote(Note note, int userId) {
+        if (note.getUserid() != userId) {
+            return false;
+        }
+        
+        return noteMapper.update(note);
+    }
+
     public void createNote(NoteForm noteForm, int userId) {
         noteMapper.insert(
             new Note(
