@@ -42,4 +42,12 @@ public class NoteService {
             )
         );
     }
+
+    public boolean deleteNoteById(int noteid, int userId) {
+        Note note = noteMapper.select(noteid);
+        if (note.getUserid() == userId && noteMapper.delete(noteid)) {
+           return true;
+        }
+        return false;
+    }
 }

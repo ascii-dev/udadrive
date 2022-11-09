@@ -37,8 +37,6 @@ public class NotesController {
         if (user == null) {
             model.addAttribute("error", "User does not exist. Please login again.");
         } else {
-            noteService.createNote(noteForm, user.getUserid());
-            noteForm.clear();
             model.addAttribute("notes", noteService.getUserNotes(user.getUserid()));
         }
 
@@ -65,6 +63,28 @@ public class NotesController {
                 if (!updated) {
                     model.addAttribute("error", "Note can not be updated");
                 }
+            }
+            noteForm.clear();
+            model.addAttribute("notes", noteService.getUserNotes(user.getUserid()));
+        } else {
+            model.addAttribute("error", "User does not exist. Please login again.");
+        }
+
+        return "notes";
+    }
+
+    @PostMapping("/delete")
+    public String deleteNote(
+        @ModelAttribute("noteForm") NoteForm noteForm,
+        Model model,
+        Principal principal
+    ) {
+        User user = userService.select(principal.getName());
+
+        if (user != null) {
+            boolean deleted = noteService.deleteNoteById(noteForm.getNoteId(), user.getUserid());
+            if (!deleted) {
+                model.addAttribute("error", "Note can not be deleted");
             }
             noteForm.clear();
             model.addAttribute("notes", noteService.getUserNotes(user.getUserid()));
