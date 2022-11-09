@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <title>Notes</title>
+        <!-- Bootstrap icons-->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+        <!-- Google fonts-->
+        <link rel="preconnect" href="https://fonts.gstatic.com" />
+        <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,600;1,600&amp;display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Mulish:ital,wght@0,300;0,500;0,600;0,700;1,300;1,500;1,600;1,700&amp;display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,400;1,400&amp;display=swap" rel="stylesheet" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" />
+    </head>
+    <body id="page-top">
+        <nav class="navbar navbar-expand-lg navbar-light fixed-top shadow-sm" id="mainNav">
+            <div class="container px-5">
+                <a class="navbar-brand fw-bold" th:href="@{/}">UdaCloud</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    Menu
+                    <i class="bi-list"></i>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ms-auto me-4 my-3 my-lg-0">
+                        <li class="nav-item"><a class="nav-link me-lg-3" th:href="@{/notes}">Notes</a></li>
+                    </ul>
+                    <ul class="navbar-nav my-lg-0">
+                        <li class="nav-item"><a class="nav-link me-lg-3" th:href="@{/files}">Files</a></li>
+                    </ul>
+                    <ul class="navbar-nav my-lg-0">
+                        <li class="nav-item"><a class="nav-link me-lg-3" th:href="@{/credentials}">Credentials</a></li>
+                    </ul>
+                    <form action="#" method="POST" th:action="@{/logout}">
+                        <button class="btn btn-primary rounded-pill px-3 mb-2 mb-lg-0">
+                            <span class="d-flex align-items-center">
+                                <span class="small">Log out</span>
+                            </span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </nav>
+        <div class="container p-3" style="margin-top: 5em;">
+            <button style="margin: 0.25em;" type="button" class="btn btn-info float-right" onclick="showNoteModal()">
+                + Add a New Note
+            </button>
+
+            <div class="table-responsive">
+                <table class="table table-striped" id="userTable">
+                    <thead>
+                        <tr>
+                            <th style="width: 20%" scope="col"></th>
+                            <th style="width: 20%" scope="col">Title</th>
+                            <th style="width: 60%" scope="col">Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="note : ${notes}">
+                            <td>
+                                <button
+                                    type="button"
+                                    class="btn btn-success"
+                                    onclick="showNoteModal(note.noteid, note.notetitle, note.notedescription)"
+                                >Edit</button>
+                                <a class="btn btn-danger">Delete</a>
+                            </td>
+                            <th scope="row" th:text="${note.notetitle}">Some new note</th>
+                            <td th:text="${note.notedescription}">Lorem ipsum dolor sit...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="modal fade" id="noteModal" tabindex="-1" role="dialog" aria-labelledby="noteModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="noteModalLabel">Note</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="#" method="POST" th:action="@{/notes}" th:object="${noteForm}">
+                                <input type="hidden" name="noteId" id="note-id">
+                                <div class="form-group">
+                                    <label for="note-title" class="col-form-label">Title</label>
+                                    <input type="text" name= "noteTitle" class="form-control" id="note-title" maxlength="20" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="note-description" class="col-form-label">Description</label>
+                                    <textarea class="form-control" name="noteDescription" id="note-description" rows="5" maxlength="1000" required></textarea>
+                                </div>
+                                <button id="noteSubmit" type="submit" class="d-none"></button>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" onclick="$('#noteSubmit').click();">Save changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="mt-5 bg-black text-center py-5">
+            <div class="container px-5">
+                <div class="text-white-50 small">
+                    <div class="mb-2">&copy; UdaCloud 2022. All Rights Reserved.</div>
+                </div>
+            </div>
+        </footer>
+
+        <script th:src="@{/js/jquery-slim.min.js}"></script>
+        <script th:src="@{/js/popper.min.js}"></script>
+        <script th:src="@{/js/bootstrap.min.js}"></script>
+        <script th:src="@{/js/scripts.js}"></script>
+        <!--For opening the note modal-->
+        <script type="text/javascript">
+            // For opening the note modal
+            function showNoteModal(noteId, noteTitle, noteDescription) {
+                $('#note-id').val(noteId ? noteId : '');
+                $('#note-title').val(noteTitle ? noteTitle : '');
+                $('#note-description').val(noteDescription ? noteDescription : '');
+                $('#noteModal').modal('show');
+            }
+        </script>
+    </body>
+</html>
