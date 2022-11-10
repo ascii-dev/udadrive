@@ -24,9 +24,10 @@ public class HomeController {
         User user = userService.select(principal.getName());
         if (user == null) {
             model.addAttribute("error", "User does not exist. Please login again.");
-        } else {
-            model.addAttribute("name", user.getFirstname() + " " + user.getLastname());
+            return "redirect:login";
         }
+
+        model.addAttribute("name", user.getFirstname() + " " + user.getLastname());
 
         return "home";
     }

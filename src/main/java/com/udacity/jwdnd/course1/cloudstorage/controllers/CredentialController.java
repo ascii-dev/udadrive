@@ -42,12 +42,12 @@ public class CredentialController {
 
         if (user == null) {
             model.addAttribute("error", "User does not exist. Please login again.");
-        } else {
-            model.addAttribute(
-                "credentials",
-                credentialService.getUserCredentials(user.getUserid())
-            );
+            return "redirect:login";
         }
+        model.addAttribute(
+            "credentials",
+            credentialService.getUserCredentials(user.getUserid())
+        );
 
         return "credentials";
     }
@@ -62,20 +62,21 @@ public class CredentialController {
 
         if (user == null) {
             model.addAttribute("error", "User does not exist. Please login again");
-        } else {
-            boolean deleted = credentialService.deleteCredentialById(
-                credentialForm.getCredentialId(),
-                user.getUserid()
-            );
-            if (!deleted) {
-                model.addAttribute("error", "Credential can not be deleted");
-            }
-            credentialForm.clear();
-            model.addAttribute(
-                "credentials",
-                credentialService.getUserCredentials(user.getUserid())
-            );
+            return "redirect:login";
         }
+
+        boolean deleted = credentialService.deleteCredentialById(
+            credentialForm.getCredentialId(),
+            user.getUserid()
+        );
+        if (!deleted) {
+            model.addAttribute("error", "Credential can not be deleted");
+        }
+        credentialForm.clear();
+        model.addAttribute(
+            "credentials",
+            credentialService.getUserCredentials(user.getUserid())
+        );
 
         return "credentials";
     }
@@ -91,48 +92,48 @@ public class CredentialController {
 
         if (user == null) {
             model.addAttribute("error", "User does not exist. Please login again");
-        } else {
-            if (credentialForm.getCredentialId() == null) {
-                credentialForm.setPassword(
-                    encryptionService.encryptValue(
-                        credentialForm.getPassword(), 
-                        encodedKey
-                    )
-                );
-                credentialForm.setEncodedKey(encodedKey);
-
-                credentialService.createCredential(
-                    credentialForm, 
-                    user.getUserid()
-                );
-            } else {
-                Credential credential = credentialService.getCredential(
-                    credentialForm.getCredentialId()
-                );
-                credential.setUrl(credentialForm.getUrl());
-                credential.setUsername(credentialForm.getUsername());
-                credential.setPassword(
-                    encryptionService.encryptValue(
-                        credentialForm.getPassword(),
-                        encodedKey
-                    )
-                );
-                credential.setKey(encodedKey);
-
-                boolean updated = credentialService.updateCredential(
-                    credential,
-                    user.getUserid()
-                );
-                if (!updated) {
-                    model.addAttribute("error", "Credential can not be updated");
-                }
-            }
-            credentialForm.clear();
-            model.addAttribute(
-                "credentials",
-                credentialService.getUserCredentials(user.getUserid())
-            );
+            return "redirect:login";
         }
+        if (credentialForm.getCredentialId() == null) {
+            credentialForm.setPassword(
+                encryptionService.encryptValue(
+                    credentialForm.getPassword(), 
+                    encodedKey
+                )
+            );
+            credentialForm.setEncodedKey(encodedKey);
+
+            credentialService.createCredential(
+                credentialForm, 
+                user.getUserid()
+            );
+        } else {
+            Credential credential = credentialService.getCredential(
+                credentialForm.getCredentialId()
+            );
+            credential.setUrl(credentialForm.getUrl());
+            credential.setUsername(credentialForm.getUsername());
+            credential.setPassword(
+                encryptionService.encryptValue(
+                    credentialForm.getPassword(),
+                    encodedKey
+                )
+            );
+            credential.setKey(encodedKey);
+
+            boolean updated = credentialService.updateCredential(
+                credential,
+                user.getUserid()
+            );
+            if (!updated) {
+                model.addAttribute("error", "Credential can not be updated");
+            }
+        }
+        credentialForm.clear();
+        model.addAttribute(
+            "credentials",
+            credentialService.getUserCredentials(user.getUserid())
+        );
 
         return "credentials";
     }

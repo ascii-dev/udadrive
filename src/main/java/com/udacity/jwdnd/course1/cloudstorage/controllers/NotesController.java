@@ -36,9 +36,9 @@ public class NotesController {
 
         if (user == null) {
             model.addAttribute("error", "User does not exist. Please login again.");
-        } else {
-            model.addAttribute("notes", noteService.getUserNotes(user.getUserid()));
+            return "redirect:login";
         }
+        model.addAttribute("notes", noteService.getUserNotes(user.getUserid()));
 
         return "notes";
     }
@@ -51,24 +51,25 @@ public class NotesController {
     ) {
         User user = userService.select(principal.getName());
 
-        if (user != null) {
-            if (noteForm.getNoteId() == null) {
-                noteService.createNote(noteForm, user.getUserid());
-            } else {
-                Note note = noteService.getNote(noteForm.getNoteId());
-                note.setNotetitle(noteForm.getNoteTitle());
-                note.setNotedescription(noteForm.getNoteDescription());
-
-                boolean updated = noteService.updateNote(note, user.getUserid());
-                if (!updated) {
-                    model.addAttribute("error", "Note can not be updated");
-                }
-            }
-            noteForm.clear();
-            model.addAttribute("notes", noteService.getUserNotes(user.getUserid()));
-        } else {
+        if (user == null) {
             model.addAttribute("error", "User does not exist. Please login again.");
+            return "redirect:login";
         }
+
+        if (noteForm.getNoteId() == null) {
+            noteService.createNote(noteForm, user.getUserid());
+        } else {
+            Note note = noteService.getNote(noteForm.getNoteId());
+            note.setNotetitle(noteForm.getNoteTitle());
+            note.setNotedescription(noteForm.getNoteDescription());
+
+            boolean updated = noteService.updateNote(note, user.getUserid());
+            if (!updated) {
+                model.addAttribute("error", "Note can not be updated");
+            }
+        }
+        noteForm.clear();
+        model.addAttribute("notes", noteService.getUserNotes(user.getUserid()));
 
         return "notes";
     }
@@ -81,16 +82,17 @@ public class NotesController {
     ) {
         User user = userService.select(principal.getName());
 
-        if (user != null) {
-            boolean deleted = noteService.deleteNoteById(noteForm.getNoteId(), user.getUserid());
-            if (!deleted) {
-                model.addAttribute("error", "Note can not be deleted");
-            }
-            noteForm.clear();
-            model.addAttribute("notes", noteService.getUserNotes(user.getUserid()));
-        } else {
+        if (user == null) {
             model.addAttribute("error", "User does not exist. Please login again.");
+            return "redirect:login";
         }
+
+        boolean deleted = noteService.deleteNoteById(noteForm.getNoteId(), user.getUserid());
+        if (!deleted) {
+            model.addAttribute("error", "Note can not be deleted");
+        }
+        noteForm.clear();
+        model.addAttribute("notes", noteService.getUserNotes(user.getUserid()));
 
         return "notes";
     }

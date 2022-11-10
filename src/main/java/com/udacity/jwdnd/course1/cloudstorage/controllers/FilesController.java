@@ -29,6 +29,7 @@ public class FilesController {
 
         if (user == null) {
             model.addAttribute("error", "User does not exist. Please login again.");
+            return "redirect:login";
         }
 
         return "files";
