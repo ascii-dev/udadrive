@@ -43,7 +43,7 @@
             </div>
         </nav>
         <div class="container p-3" style="margin-top: 5em;">
-            <form action="#" enctype="multipart/form-data" method="POST">
+            <form action="#" enctype="multipart/form-data" method="POST" th:action="@{/files}">
                 <div class="container">
                     <div class="row" style="margin: 1em;">
                         <div class="col-sm-2">
@@ -67,12 +67,15 @@
                         </tr>
                     </thead>
                     <tbody>
-                    <tr>
+                    <tr th:each="file : ${files}">
                         <td>
-                            <a target="_blank" class="btn btn-success">View</a>
-                            <a  class="btn btn-danger">Delete</a>
+                            <a target="_blank" class="btn btn-success" th:href="@{'/files/download/' + ${file.fileId}}">View</a>
+                            <form action="#" method="POST" th:action="@{/files/delete}">
+                                <input type="hidden" name="fileId" th:value="${file.fileId}">
+                                <button class="btn btn-danger" type="submit">Delete</button>
+                            </form>
                         </td>
-                        <th scope="row">ExampleFile.txt</th>
+                        <th scope="row" th:text="${file.filename}">ExampleFile.txt</th>
                     </tr>
                     </tbody>
                 </table>

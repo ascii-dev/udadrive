@@ -10,7 +10,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class File {
-    private Integer fileid;
+    private Integer fileId;
     private String filename;
     private String contenttype;
     private String filesize;
