@@ -202,6 +202,34 @@ class CloudStorageApplicationTests {
 
 	}
 
+	@Test
+	public void testDuplicateUploadFails() {
+		// Create a test account
+		doMockSignUp("Duplicate File","Test","DFT","123");
+		doLogIn("DFT", "123");
 
+		// Access files page
+		driver.get("http://localhost:" + this.port + "/files");
 
+		// Try to upload an arbitrary large file
+		WebDriverWait webDriverWait = new WebDriverWait(driver, 20);
+		String fileName = "upload5m.zip";
+
+		webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("fileUpload")));
+		WebElement fileSelectButton = driver.findElement(By.id("fileUpload"));
+		fileSelectButton.sendKeys(new File(fileName).getAbsolutePath());
+
+		WebElement uploadButton = driver.findElement(By.id("uploadButton"));
+		uploadButton.click();
+
+		// Upload same file a second time
+		webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("fileUpload")));
+		fileSelectButton = driver.findElement(By.id("fileUpload"));
+		fileSelectButton.sendKeys(new File(fileName).getAbsolutePath());
+
+		uploadButton = driver.findElement(By.id("uploadButton"));
+		uploadButton.click();
+
+		Assertions.assertTrue(driver.getPageSource().contains("File name already exists."));
+	}
 }

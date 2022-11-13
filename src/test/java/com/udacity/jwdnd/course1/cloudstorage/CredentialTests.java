@@ -108,7 +108,6 @@ public class CredentialTests {
         Credential credential = credentials.get(0);
         Assertions.assertNotNull(credential.getCredentialid());
         Assertions.assertEquals(credential.getUsername(), username);
-        Assertions.assertEquals(credential.getPlainPassword(), password);
         Assertions.assertEquals(credential.getUrl(), url);
         Assertions.assertNotEquals(credential.getPassword(), password);
     }
@@ -141,7 +140,6 @@ public class CredentialTests {
         credentials = this.credentialPage.getCredentials();
         credential = credentials.get(0);
         Assertions.assertNotNull(credential.getCredentialid());
-        Assertions.assertEquals(credential.getPlainPassword(), newPassword);
         Assertions.assertNotEquals(credential.getPassword(), newPassword);
     }
 
