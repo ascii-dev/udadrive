@@ -33,7 +33,8 @@ public class CredentialService {
                 credentialForm.getUsername(),
                 credentialForm.getEncodedKey(),
                 credentialForm.getPassword(),
-                userId
+                userId,
+                null
             )
         );
     }
@@ -43,7 +44,7 @@ public class CredentialService {
         List<Credential> output = new ArrayList<>();
 
         for (Credential credential : credentials) {
-            credential.setPassword(
+            credential.setPlainPassword(
                 encryptionService.decryptValue(
                     credential.getPassword(),
                     credential.getKey()
