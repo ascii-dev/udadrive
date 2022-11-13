@@ -38,4 +38,12 @@ public class FileService {
     public boolean deleteFile(int fileId) {
         return fileMapper.delete(fileId);
     }
+
+    public File getSingleFileByName(String fileName) {
+        return fileMapper.getFileByName(fileName);
+    }
+
+    public boolean isFileNameExist(String fileName) {
+        return getSingleFileByName(fileName) != null;
+    }
 }

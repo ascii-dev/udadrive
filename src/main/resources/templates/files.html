@@ -43,6 +43,15 @@
             </div>
         </nav>
         <div class="container p-3" style="margin-top: 5em;">
+            <div id="success-msg" th:if="${success}" class="alert alert-dark">
+                File upload was successful
+            </div>
+            <div
+                id="error-msg"
+                class="alert alert-danger"
+                th:if="${error}"
+                th:text="${error}"
+            ></div>
             <form action="#" enctype="multipart/form-data" method="POST" th:action="@{/files}">
                 <div class="container">
                     <div class="row" style="margin: 1em;">

@@ -77,8 +77,14 @@ public class FilesController {
                     "error", 
                     "File can not be empty."
                 );
+            } else if (fileService.isFileNameExist(multipartFile.getOriginalFilename())) {
+                model.addAttribute(
+                    "error",
+                    "File name already exists."
+                );
             } else {
                 fileService.uploadFile(multipartFile, user.getUserid());
+                model.addAttribute("success", true);
             }
 
         } catch (IOException exception) {
