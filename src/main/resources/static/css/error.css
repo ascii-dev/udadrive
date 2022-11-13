@@ -1,11 +1,6 @@
-body{
-    height: 100vh;
-    font-family: "Poppins", sans-serif;
-    background: black !important;
-    color: white !important;
-    font-weight: 900 !important;
-}
-
+/*!
+* RustCodeWeb (https://www.rustcodeweb.com/2022/06/404-error-page-design-using-html-css-and-bootstrap.html)
+*/
 .height-vh{
     height: 100vh;
 }
@@ -23,12 +18,12 @@ body{
 .btn{
     color: white !important;
     font-weight: 600 !important;
-    border: 1px solid white !important;
-    background: transparent !important;
+    border: 1px solid black !important;
+    background: black !important;
     border-radius: 0px !important;
 }
 
 .btn:hover{
-    color: black !important;
+    color: blue !important;
     background: #fff !important;
 }
