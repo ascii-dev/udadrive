@@ -180,8 +180,11 @@ class CloudStorageApplicationTests {
 		doMockSignUp("Large File","Test","LFT","123");
 		doLogIn("LFT", "123");
 
+		// Access files page
+		driver.get("http://localhost:" + this.port + "/files");
+
 		// Try to upload an arbitrary large file
-		WebDriverWait webDriverWait = new WebDriverWait(driver, 2);
+		WebDriverWait webDriverWait = new WebDriverWait(driver, 20);
 		String fileName = "upload5m.zip";
 
 		webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.id("fileUpload")));

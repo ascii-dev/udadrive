@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Error</title>
+    <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet" />
+    <link th:href="@{/css/error.css}" rel="stylesheet" />
+</head>
+
+<body>
+<div class="container-fluid">
+	<div class="row d-flex justify-content-center align-items-center height-vh">
+
+	<div class="col-lg-6 col-12">
+		<div class="col-md-12">
+			<img th:src="@{/images/image.png}" width="100%">
+		</div>
+	</div>
+
+	<div class="col-lg-6 col-12">
+
+		<div class="col-12 d-flex flex-column justify-content-center align-items-center">
+			<h1 class="main-heading">404</h1>
+			<h2>We couldn't find this page.</h2>
+			<div class="text-center mt-4 mb-5">
+				<a class="btn btn-success px-3 mr-2" th:href="@{/}">
+                    Home
+                </a>
+				<a class="btn btn-success px-3 mr-2" th:href="@{/login}">
+                    Login
+                </a>
+				<a class="btn btn-success px-3 mr-2" th:href="@{/signup}">
+                    Sign Up
+                </a>
+			</div>
+		</div>
+
+	</div>
+
+
+	</div>
+</div>
+
+</body>
+</html>

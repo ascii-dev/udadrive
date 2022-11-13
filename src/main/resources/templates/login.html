@@ -37,6 +37,9 @@
         <div class="container justify-content-center w-25 p-3" style="background-color: #eeeeee; margin-top: 5em;">
             <h1 class="display-5">Login</h1>
             <form action="#" method="POST"th:action="@{/login}">
+                <div id="success-msg" th:if="${signupSuccess}" class="alert alert-dark">
+                    You successfully signed up! Please login below.
+                </div>
                 <div class="alert alert-danger" th:if="${param.error}">
                     Invalid username or password
                 </div>
