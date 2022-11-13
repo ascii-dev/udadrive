@@ -33,7 +33,7 @@
                         <li class="nav-item"><a class="nav-link me-lg-3" th:href="@{/credentials}">Credentials</a></li>
                     </ul>
                     <form action="#" method="POST" th:action="@{/logout}">
-                        <button class="btn btn-primary rounded-pill px-3 mb-2 mb-lg-0">
+                        <button class="btn btn-primary rounded-pill px-3 mb-2 mb-lg-0" id="logOutButton">
                             <span class="d-flex align-items-center">
                                 <span class="small">Log out</span>
                             </span>
@@ -43,7 +43,7 @@
             </div>
         </nav>
         <div class="container justify-content-center w-25 p-3" style="background-color: #eeeeee; margin-top: 5em;">
-            <h1 class="display-5">Welcome [[${name}]]</h1>
+            <h1 class="display-5" id="welcomeText">Welcome [[${name}]]</h1>
             <span th:if="${error}" th:text="${error}"></span>
         </div>
 
